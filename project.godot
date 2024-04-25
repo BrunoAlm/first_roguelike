@@ -14,6 +14,12 @@ config/name="First Roguelike"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
+[file_customization]
+
+folder_colors={
+"res://main/assets/": "red"
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
