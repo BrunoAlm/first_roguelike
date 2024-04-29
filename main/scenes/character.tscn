@@ -1,9 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://cyf2jg7o4u7p0"]
+[gd_scene load_steps=41 format=3 uid="uid://baggvbl8v5phf"]
 
 [ext_resource type="Texture2D" uid="uid://dt4ovekmrvbqp" path="res://main/assets/idle.png" id="1_cs2hc"]
 [ext_resource type="Script" path="res://main/script/walk.gd" id="1_fe8dy"]
 [ext_resource type="Texture2D" uid="uid://d3xmcpfvlcpln" path="res://main/assets/attack.png" id="1_oket6"]
 [ext_resource type="Texture2D" uid="uid://cvbcq33fvxtab" path="res://main/assets/running.png" id="2_fdyrk"]
+[ext_resource type="Texture2D" uid="uid://bj0jskxpqtoj7" path="res://main/assets/Warrior_Blue.png" id="2_wekhj"]
 [ext_resource type="Texture2D" uid="uid://bchcfvmu42jed" path="res://main/assets/jump.png" id="3_dcmxo"]
 [ext_resource type="Texture2D" uid="uid://cy3ag3r0cutmy" path="res://main/assets/walking.png" id="3_wwf8b"]
 
@@ -246,25 +247,99 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0v4lt"]
-size = Vector2(17, 29)
+size = Vector2(18.5, 14.25)
+
+[sub_resource type="Animation" id="Animation_8jduy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eh54d"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ft1e4"]
+resource_name = "run"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hfg6n"]
+_data = {
+"RESET": SubResource("Animation_8jduy"),
+"idle": SubResource("Animation_eh54d"),
+"run": SubResource("Animation_ft1e4")
+}
 
 [node name="Character" type="Node2D"]
 
 [node name="Main_Character" type="CharacterBody2D" parent="."]
+motion_mode = 1
 script = ExtResource("1_fe8dy")
 
+[node name="Sprite2D" type="Sprite2D" parent="Main_Character"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_wekhj")
+hframes = 6
+vframes = 8
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Main_Character"]
+visible = false
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(4, 0)
 skew = -0.0820305
 sprite_frames = SubResource("SpriteFrames_w2uf2")
-animation = &"idle"
-frame_progress = 0.437937
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Main_Character"]
-position = Vector2(1, 0)
+position = Vector2(-0.75, 5.125)
 shape = SubResource("RectangleShape2D_0v4lt")
 
 [node name="Camera2D" type="Camera2D" parent="Main_Character"]
 zoom = Vector2(2, 2)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Main_Character"]
+libraries = {
+"": SubResource("AnimationLibrary_hfg6n")
+}
+autoplay = "idle"
+
+[node name="WarriorBlue" type="Sprite2D" parent="."]
+position = Vector2(3186, 2124)
+scale = Vector2(2.00169, 2.00169)
+texture = ExtResource("2_wekhj")

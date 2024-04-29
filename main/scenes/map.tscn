@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://8q7svnfkuskr"]
+[gd_scene load_steps=6 format=3 uid="uid://qqej3qyfynkj"]
 
 [ext_resource type="Texture2D" uid="uid://ch58r0g8knc4j" path="res://main/assets/dungeon_tiles.png" id="1_vepx4"]
-[ext_resource type="PackedScene" uid="uid://cyf2jg7o4u7p0" path="res://main/scenes/character.tscn" id="2_rnba2"]
+[ext_resource type="PackedScene" uid="uid://baggvbl8v5phf" path="res://main/scenes/character.tscn" id="2_rnba2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_425be"]
 texture = ExtResource("1_vepx4")

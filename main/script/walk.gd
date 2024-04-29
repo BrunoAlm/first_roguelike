@@ -1,45 +1,38 @@
 extends CharacterBody2D
 
-@onready var sprites = $AnimatedSprite2D
+#@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite = $Sprite2D
+@onready var animation_player = $AnimationPlayer
 
-const SPEED = 150.0
-const JUMP_VELOCITY = -250.0
+@export var speed: int = 2
+@export_range(0, 1) var lerp_factor: float = 0.5
 
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var isJumping = false
-var isAttacking = false
+var is_running: bool = false
+var is_attacking: bool = false
 
 func _physics_process(delta):
-	if not is_on_floor():
-		sprites.play("jump")
-		velocity.y += gravity * delta
-	else:
-		var direction = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-
-		if Input.is_action_just_pressed("ui_accept"):
-			velocity.y = JUMP_VELOCITY
-
-		if Input.is_action_pressed("attack"):
-			isAttacking = true
+	var direction: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var target_velocity: Vector2 = direction * speed * 100.0
+	velocity = lerp(velocity, target_velocity, lerp_factor)
+	
+	# Girar Sprite
+	if direction.x < 0:
+		sprite.flip_h = true
+	elif direction.x > 0:
+		sprite.flip_h = false
+	
+	# Atualiza is_running
+	var was_running = is_running
+	is_running = not direction.is_zero_approx()
+	
+	# Troca animação
+	if was_running != is_running:
+		if is_running:
+			animation_player.play("run")
 		else:
-			isAttacking = false
-
-		if direction != 0:
-			if isAttacking:
-				sprites.play("attack")
-			else:
-				sprites.play("run")
-			velocity.x = direction * SPEED
-		else:
-			if isAttacking:
-				sprites.play("attack")
-			else:
-				sprites.play("idle")
-			velocity.x = 0
-
-		if direction < 0:
-			sprites.scale.x = -1
-		elif direction > 0:
-			sprites.scale.x = 1
+			animation_player.play("idle")
+	
+	#if Input.is_action_pressed("attack"):
+		#animation_player.animation = "attack"
 
 	move_and_slide()
