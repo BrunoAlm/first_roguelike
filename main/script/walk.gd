@@ -31,8 +31,15 @@ func _physics_process(delta):
 			animation_player.play("run")
 		else:
 			animation_player.play("idle")
-	
-	#if Input.is_action_pressed("attack"):
-		#animation_player.animation = "attack"
+			
+	var was_attack = is_attacking
+	if Input.is_action_pressed("attack"):
+		animation_player.play("attack")
+		if await animation_player.animation_finished:
+			if is_running:
+				animation_player.play("run")
+			else:
+				animation_player.play("idle")
+		
 
 	move_and_slide()

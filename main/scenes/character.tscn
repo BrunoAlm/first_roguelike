@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://baggvbl8v5phf"]
+[gd_scene load_steps=42 format=3 uid="uid://cyf2jg7o4u7p0"]
 
 [ext_resource type="Texture2D" uid="uid://dt4ovekmrvbqp" path="res://main/assets/idle.png" id="1_cs2hc"]
 [ext_resource type="Script" path="res://main/script/walk.gd" id="1_fe8dy"]
@@ -263,6 +263,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
 
 [sub_resource type="Animation" id="Animation_eh54d"]
 resource_name = "idle"
@@ -298,9 +310,26 @@ tracks/0/keys = {
 "values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_8egw0"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [11, 12, 13, 14, 15, 16]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hfg6n"]
 _data = {
 "RESET": SubResource("Animation_8jduy"),
+"attack": SubResource("Animation_8egw0"),
 "idle": SubResource("Animation_eh54d"),
 "run": SubResource("Animation_ft1e4")
 }
@@ -312,10 +341,13 @@ motion_mode = 1
 script = ExtResource("1_fe8dy")
 
 [node name="Sprite2D" type="Sprite2D" parent="Main_Character"]
-scale = Vector2(0.3, 0.3)
+position = Vector2(-1, -4)
+scale = Vector2(0.3, 0.302941)
+skew = 0.0872665
 texture = ExtResource("2_wekhj")
 hframes = 6
 vframes = 8
+frame = 11
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Main_Character"]
 visible = false
@@ -325,15 +357,17 @@ position = Vector2(4, 0)
 skew = -0.0820305
 sprite_frames = SubResource("SpriteFrames_w2uf2")
 animation = &"attack"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Main_Character"]
-position = Vector2(-0.75, 5.125)
+position = Vector2(-2, -1)
 shape = SubResource("RectangleShape2D_0v4lt")
 
 [node name="Camera2D" type="Camera2D" parent="Main_Character"]
 zoom = Vector2(2, 2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Main_Character"]
+deterministic = true
 libraries = {
 "": SubResource("AnimationLibrary_hfg6n")
 }
